@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flixrch</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/main.css" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div class="container-fluid" ng-app="flixrch" ng-controller="mainCtrl">
+
+<noscript class="nojs">Use a JavaScript enabled browser.</noscript>
+
+<div >
+<input type="text" ng-model="query" ng-model-options="{debounce:800}" onclick="select()" class="form-control" placeholder="Search for a movie..."/>
+  <div class="col-md-8" id="main-info">
+  <div ng-if="!movie" class="loading">Loading...</div>
+    
+<!--   Response   -->
+    <div ng-if="movie.Response === 'True'">    
+<!--     Data -->
+      <div class="poster">
+          <img ng-src="{{movie.Poster}}" alt="poster" />
+      </div>
+
+    <a href="https://imdb.com/title/{{movie.imdbID}}" target="_blank">{{movie.Title}}</a>
+      <p><strong>Released </strong>{{movie.Released}}</p>
+      <p>Runtime: {{movie.Runtime}}</p>
+      <p> {{movie.Plot}} </p>
+    <div class="details">
+      <span class="label label-primary">Directors </span>&nbsp;{{movie.Director}}
+      </div>
+          <div class="details">
+      <span class="label label-primary">Actors  </span>&nbsp;{{movie.Actors}}
+      </div>
+                <div class="details">
+      <span class="label label-primary">Genre  </span>&nbsp;{{movie.Genre}}
+      </div>
+      
+      <p class="ratings">Ratings: <br />
+      <strong>IMDB Rating: <span class="label label-success">{{movie.imdbRating}}</span></strong>
+        <br />
+      <strong>Rotten Tomatoes: <span class="label label-success">{{movie.tomatoRating}}</span></strong>
+      </p>
+      
+      <p class="trailer">
+       <a ng-href="https://www.youtube.com/results?search_query={{movie.Title}}" target="_blank" class="btn btn-xs btn-info">Watch the trailer!</a>
+      </p>
+    <!--     /Data -->
+    </div>
+    
+    <div ng-if="movie.Response === 'False'">
+    <p>No results where found for <span ng-bind="query"></span>.</p>
+    </div>
+  </div>
+  
+</div>
+</div>  
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+<script type="text/javascript" src="js/client.js"></script>
+</body>
+</html>
+
