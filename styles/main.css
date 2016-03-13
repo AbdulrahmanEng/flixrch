@@ -3,12 +3,21 @@
   font-size:16px;
 }
 
+#main-result h1 {
+    margin: 22px 0;
+}
+
 .poster {
   margin: 20px 0px;
 }
 
 #related-results{
- margin-top: 11px; 
+ margin-top: 71px; 
+}
+
+.related {
+    list-style: none;
+    padding: 0px;
 }
 
 .ratings{
@@ -21,6 +30,15 @@
 
 @media all and (max-width:370px){
   .poster img{
-  width: 100%;
+    width: 100%;
+  }
 }
+
+@media all and (min-width:520px){
+  p{
+    width:80%;
+  }
 }
+
+
+
