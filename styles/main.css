@@ -4,6 +4,23 @@
 }
 
 .poster {
-  margin: 10px auto;
-  text-align: center;
+  margin: 20px 0px;
+}
+
+#related-results{
+ margin-top: 11px; 
+}
+
+.ratings{
+ margin-top: 11px; 
+}
+
+.input{
+  margin-top: 10px;
+}
+
+@media all and (max-width:370px){
+  .poster img{
+  width: 100%;
+}
 }

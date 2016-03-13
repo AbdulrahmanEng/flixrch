@@ -1,65 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Flixrch</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles/main.css" type="text/css" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-
-<div class="container-fluid" ng-app="flixrch" ng-controller="mainCtrl">
-
-<noscript class="nojs">Use a JavaScript enabled browser.</noscript>
-
-<div >
-<input type="text" ng-model="query" ng-model-options="{debounce:800}" onclick="select()" class="form-control" placeholder="Search for a movie..."/>
-  <div class="col-md-8" id="main-info">
-  <div ng-if="!movie" class="loading">Loading...</div>
-    
-<!--   Response   -->
-    <div ng-if="movie.Response === 'True'">    
-<!--     Data -->
-      <div class="poster">
-          <img ng-src="{{movie.Poster}}" alt="poster" />
+  <head>
+    <meta charset="UTF-8">
+    <title>Flixrch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+    <script type="text/javascript" src="js/client.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/main.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div ng-app="flixrch" ng-controller="mainCtrl" class="container-fluid">
+      <noscript class="nojs">Use a JavaScript enabled browser.</noscript>
+      <div id="main-all">
+        <!-- Input-->
+        <input type="text" ng-model="query" ng-model-options="{debounce:800}" onclick="select()" placeholder="Search for a movie..." class="form-control input">
+        <!-- Main Results-->
+        <div id="main-result" class="col-sm-8 col-md-8 col-lg-8">
+          <div ng-if="!movie" class="loading">Loading...</div>
+          <!-- Response-->
+          <div ng-if="movie.Response === 'True'">
+            <!-- Data-->
+            <h1>{{movie.Title}}&nbsp;<a href="http://www.imdb.com/year/{{movie.Year}}/?ref_=tt_ov_inf" target="_blank">({{movie.Year}})</a></h1>
+            <div class="poster"><img ng-src="{{movie.Poster}}" alt="poster"></div>
+            <p><strong>Released: </strong>{{movie.Released}}</p>
+            <p>Runtime: {{movie.Runtime}}</p>
+            <p> {{movie.Plot}} </p>
+            <div class="details"><span class="label label-primary">Directors </span> {{movie.Director}}</div>
+            <div class="details"><span class="label label-primary">Actors  </span> {{movie.Actors}}</div>
+            <div class="details"><span class="label label-primary">Genre  </span> {{movie.Genre}}</div>
+            <p class="ratings">Ratings: <br><strong>IMDB Rating: <span class="label label-success">{{movie.imdbRating}}</span></strong>
+            <br>
+            <strong>Rotten Tomatoes: <span class="label label-success">{{movie.tomatoRating}}</span></strong></p>
+            <p class="trailer"><a ng-href="https://www.youtube.com/results?search_query={{movie.Title}}" target="_blank" class="btn btn-xs btn-info">Watch the trailer!</a></p>
+            <!-- /Data-->
+          </div>
+          <div ng-if="movie.Response === 'False'">
+            <p>No results where found for <span ng-bind="query"></span>.</p>
+          </div>
+        </div>
+        <!-- Related-->
+        <div id="related-results" class="col-sm-4 col-md-4 col-lg-4">
+          <div ng-if="related.Response === 'True'"><h4>Related Results</h4>
+            <hr>
+            <ul class="related">
+              <li ng-repeat="movie in related.Search"><a href="#" id="{{$index + 1}}" ng-click="update(movie)">{{movie.Title}}</a>,{{movie.Year}}</li>
+            </ul>
+          </div>
+        </div>
       </div>
-
-    <a href="https://imdb.com/title/{{movie.imdbID}}" target="_blank">{{movie.Title}}</a>
-      <p><strong>Released </strong>{{movie.Released}}</p>
-      <p>Runtime: {{movie.Runtime}}</p>
-      <p> {{movie.Plot}} </p>
-    <div class="details">
-      <span class="label label-primary">Directors </span>&nbsp;{{movie.Director}}
-      </div>
-          <div class="details">
-      <span class="label label-primary">Actors  </span>&nbsp;{{movie.Actors}}
-      </div>
-                <div class="details">
-      <span class="label label-primary">Genre  </span>&nbsp;{{movie.Genre}}
-      </div>
-      
-      <p class="ratings">Ratings: <br />
-      <strong>IMDB Rating: <span class="label label-success">{{movie.imdbRating}}</span></strong>
-        <br />
-      <strong>Rotten Tomatoes: <span class="label label-success">{{movie.tomatoRating}}</span></strong>
-      </p>
-      
-      <p class="trailer">
-       <a ng-href="https://www.youtube.com/results?search_query={{movie.Title}}" target="_blank" class="btn btn-xs btn-info">Watch the trailer!</a>
-      </p>
-    <!--     /Data -->
     </div>
-    
-    <div ng-if="movie.Response === 'False'">
-    <p>No results where found for <span ng-bind="query"></span>.</p>
-    </div>
-  </div>
-  
-</div>
-</div>  
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
-<script type="text/javascript" src="js/client.js"></script>
-</body>
+    <!-- /mainCtrl-->
+  </body>
 </html>
-
